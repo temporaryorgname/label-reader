@@ -3,6 +3,7 @@ import pytesseract
 from PIL import Image
 
 image = cv2.imread('imgs/label1.png')
+#image = cv2.imread('imgs/label3.jpg')
 orig = image.copy()
 
 image_grey = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
@@ -28,9 +29,10 @@ for c in contours[0]:
     rects.append(((x,y),(x+w,y+h)))
 
 for r in rects:
-    cv2.rectangle(image, r[0], r[1], (0,255,0), 3)
+    cv2.rectangle(image, r[0], r[1], (0,255,0), 1)
 cv2.imwrite('output/rects.png', image)
 
+texts = []
 for i,crop_area in enumerate(rects):
     cropped_image = orig[crop_area[0][1]:crop_area[1][1],crop_area[0][0]:crop_area[1][0]]
 
@@ -44,3 +46,6 @@ for i,crop_area in enumerate(rects):
     cropped_pil_image.save('output/cropped-%d.png'%i, 'png')
     print('-'*20)
     print(text)
+    texts.append(text)
+
+# Search for calories
